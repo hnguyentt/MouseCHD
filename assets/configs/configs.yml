@@ -1,0 +1,28 @@
+{
+ "model_name": "roimask3d",
+ "mask_depth": 4,
+ "is_bn_mask": false,
+ "first_filters": 64,
+ "resume": null,
+ "n_classes": 2,
+ "class_weights": true,
+ "seed": 42,
+ "save_best": false,
+ "lr": 0.001,
+ "input_size": [
+  32,
+  64,
+  64,
+  1
+ ],
+ "decay": 1e-09,
+ "momentum": 0.9,
+ "gamma": 2.0,
+ "alpha": 0.25,
+ "epochs": 100,
+ "loss_fn": "categorical_crossentropy",
+ "patience": 10,
+ "augment": "augment0",
+ "monitor": "val_loss",
+ "batch_size": 8
+}

@@ -1,0 +1,13 @@
+# Adapt with modifications from: https://github.com/yobibyte/prettyplots/blob/master/prettyplots.mplstyle
+figure.titlesize:20
+figure.figsize:7.0,4.0
+figure.dpi:200
+font.family:sans-serif
+xtick.labelsize:15
+ytick.labelsize:15
+lines.linewidth:3.0
+axes.labelsize:15
+legend.fontsize:15
+legend.title_fontsize: 16
+axes.grid:False
+image.cmap:Accent

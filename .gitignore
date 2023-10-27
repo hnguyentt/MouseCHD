@@ -1,8 +1,5 @@
 # Folders
-DATASETS
-!mouseheartscan/datasets
-OUTPUTS
-analysis-draft
+test
 
 .Rhistory
 .vscode
@@ -20,4 +17,4 @@ scripts/.*
 
 build/
 dist/
-mouseheartscan.egg-info/
+mousechd.egg-info/

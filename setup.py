@@ -1,20 +1,42 @@
 from setuptools import setup, find_packages
 import os, sys
+from pathlib import Path
 sys.path.insert(0, f'{os.path.dirname(__file__)}{os.sep}mousechd')
 import mousechd
 version = mousechd.__version__
+this_dir = Path(__file__).parent
+long_description = (this_dir/"README.md").read_text()
 
 setup(name='mousechd',
       version=version,
       description='Segmenting hearts and screening congenital heart diseases in mice',
-      author='IMOD Pasteur',
-      author_email='hnguyent@pasteur.fr | hoantt.d2011@uphcm.edu.vn',
+      long_description=long_description,
+      long_description_content_type='text/markdown',
+      url="https://github.com/hnguyentt/MouseCHD",
+      author='Hoa Nguyen',
+      author_email='hnguyent@gmail.com',
+      license="MIT",
       packages=find_packages(),
       entry_points={
           "console_scripts": [
               "mousechd = mousechd.__main__:main"
           ]
       },
+      classifiers=["Development Status :: 2 - Pre-Alpha",
+                   "Intended Audience :: Developers",
+                   "Intended Audience :: Science/Research",
+                   "Intended Audience :: Healthcare Industry",
+                   "Programming Language :: Python :: 3",
+                   "License :: OSI Approved :: MIT License",
+                   "Topic :: Scientific/Engineering :: Artificial Intelligence",
+                   "Topic :: Scientific/Engineering :: Image Recognition",
+                   "Topic :: Scientific/Engineering :: Medical Science Apps.",
+                   ],
+      keywords=["deep learning",
+                "image segmentation",
+                "image classification",
+                "medical image analysis",
+                "mousechd"],
       install_requires=[
           "opencv-contrib-python-headless",
           "SimpleITK",

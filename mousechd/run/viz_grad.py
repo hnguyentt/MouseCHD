@@ -6,9 +6,9 @@ import skimage
 import datetime
 
 from mousechd.utils.tools import set_logger
-from mousechd.utils.visualization import (load_cams,
-                                          create_gradcam_grid,
-                                          plot_gallery)
+from mousechd.utils.analyzer import (load_cams,
+                                     create_gradcam_grid,
+                                     plot_gallery)
 
 
 def add_args(parser):

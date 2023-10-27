@@ -1,4 +1,4 @@
-![Thumbnail](./assets/thumbnail.png)
+![Thumbnail](https://raw.githubusercontent.com/hnguyentt/MouseCHD/master/assets/thumbnail.png)
 
 Screening of Congenital Heart Diseases (CHD) in mice with 3D <img src="https://latex.codecogs.com/svg.latex?\mu" /> CTscans.
 

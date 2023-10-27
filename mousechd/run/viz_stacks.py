@@ -4,11 +4,11 @@ import imageio.v2 as imageio
 import SimpleITK as sitk
 import numpy as np
 from mousechd.datasets.utils import get_bbx, get_largest_connectivity
-from mousechd.utils.visualization import (stack_slices, 
-                                          stack_slices_with_ctn,
-                                          stack_color_slices,
-                                          plot_stacked_im,
-                                          plot_stacked_ims)
+from mousechd.utils.analyzer import (stack_slices, 
+                                     stack_slices_with_ctn,
+                                     stack_color_slices,
+                                     plot_stacked_im,
+                                     plot_stacked_ims)
 
 def add_args(parser):
     parser.add_argument('-impath', type=str, help="Path to image")

@@ -9,10 +9,10 @@ import pandas as pd
 from scipy.stats import chi2_contingency
 
 from mousechd.utils.tools import set_logger
-from mousechd.utils.visualization import (load_metadata,
-                                          get_kingdom_df,
-                                          plot_kingdom_venn,
-                                          plot_contingency)
+from mousechd.utils.analyzer import (load_metadata,
+                                     get_kingdom_df,
+                                     plot_kingdom_venn,
+                                     plot_contingency)
 
 
 def add_args(parser):

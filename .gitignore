@@ -1,0 +1,23 @@
+# Folders
+DATASETS
+!mouseheartscan/datasets
+OUTPUTS
+analysis-draft
+
+.Rhistory
+.vscode
+**/.DS_Store
+**/__pycache__
+**/.ipynb_checkpoints
+**/*.aux
+**/*.log
+**/*.fdb_latexmk
+**/*.pdf
+**/*.synctex.gz
+**/*.fls
+
+scripts/.*
+
+build/
+dist/
+mouseheartscan.egg-info/

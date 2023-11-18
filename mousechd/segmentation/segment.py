@@ -61,7 +61,7 @@ def segment_from_folder(indir, outdir, folds=None):
     if folds is not None:
         folds = [folds]
     for fname, url in urls.items():
-        url = Path(fname)
+        fname = Path(fname)
         download_file(url, fname, cache_dir=SEG_DIR)
         
     trainer = trainer_class_name

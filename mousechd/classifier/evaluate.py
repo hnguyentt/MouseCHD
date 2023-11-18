@@ -2,21 +2,41 @@
 """ 
 Evaluate models
 """
+import logging
 import os, re
 import pandas as pd
 import numpy as np
-import logging
+import SimpleITK as sitk
 
 from .datagens import MouseCHDEvalGen
 from .utils import calculate_metrics, eval_clf
+from ..datasets.utils import resample3d, norm_min_max
+from .gradcam import GradCAM3D
+from .models import load_MouseCHD_model
 
 
-def predict_from_path(model, impath, maskpath):
-    pass
-
-
-def predict_heart(model, resampled_im):
-    pass
+#TODO: Delete later
+def predict_heart(conf_path, weights_path, resampled_im):
+    model = load_MouseCHD_model(conf_path=conf_path,
+                                weights_path=weights_path)
+    
+    input_shape = model.layers[0].output_shape[0][1:4]
+    img = sitk.GetImageFromArray(resampled_im)
+    img.SetSpacing((0.02, 0.02, 0.02))
+    img = resample3d(img, input_shape[::-1])
+    im = sitk.GetArrayFromImage(img)
+    im = norm_min_max(im)
+    im = np.expand_dims(im, axis=3)
+    im = np.expand_dims(im, axis=0)
+    
+    preds = model.predict(tf.convert_to_tensor(im))[0]
+    
+    # GradCAM
+    class_idx = np.argmax(preds)
+    grad_model = GradCAM3D(model)
+    gradcam = grad_model.compute_heatmap(im, classIdx=class_idx, upsample_size=resampled_im.shape)
+    
+    return preds, gradcam
 
 
 def predict_folder(model,

@@ -1,4 +1,4 @@
-####################args.out
+####################
 # RUN ON INCEPTION #
 ####################
 module add cudnn/v8.7.0.84/cuda-11.8.0_520.61.05
@@ -15,7 +15,7 @@ srun -J "$F" --pty --gres=gpu:1 -c 4 mousechd train_clf \
     -label_dir "$WORKDIR/DATA/CTs/labels/x5/5folds/$F" \
     -test_path "$WORKDIR/DATA/CTs/labels/base/5folds/$F/test.csv" \
     -testdir "$WORKDIR/DATA/CTs/resampled/Imagine/images" \
-    -configs "$SRCDIR/assets/configs/configs.yml" \
+    -configs "$SRCDIR/assets/configs/configs.json" \
     -log_dir "$WORKDIR/LOGS" -evaluate "all"
 
 # All data
@@ -26,7 +26,7 @@ srun -J "all-in" --pty --gres=gpu:1 -c 4 mousechd train_clf \
     -label_dir "$WORKDIR/DATA/CTs/labels/x5_base/1fold" \
     -test_path "$WORKDIR/DATA/CTs/labels/followup.csv" \
     -testdir "$WORKDIR/DATA/CTs/resampled/followup/images" \
-    -configs "$SRCDIR/assets/configs/configs.yml" \
+    -configs "$SRCDIR/assets/configs/configs.json" \
     -log_dir "$WORKDIR/LOGS" -evaluate "all"
 
 srun -J "retrain" --pty --gres=gpu:1 -c 4 mousechd train_clf \
@@ -36,7 +36,7 @@ srun -J "retrain" --pty --gres=gpu:1 -c 4 mousechd train_clf \
     -label_dir "$WORKDIR/DATA/CTs/labels/x5_base/retrain" \
     -test_path "$WORKDIR/DATA/CTs/labels/Amaia.csv" \
     -testdir "$WORKDIR/DATA/CTs/resampled/Amaia/images" \
-    -configs "$SRCDIR/assets/configs/configs.yml" \
+    -configs "$SRCDIR/assets/configs/configs.json" \
     -log_dir "$WORKDIR/LOGS" -evaluate "all"
 
 

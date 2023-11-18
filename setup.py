@@ -9,12 +9,13 @@ long_description = (this_dir/"README.md").read_text()
 
 setup(name='mousechd',
       version=version,
+      python_requires=">=3.9",
       description='Segmenting hearts and screening congenital heart diseases in mice',
       long_description=long_description,
       long_description_content_type='text/markdown',
       url="https://github.com/hnguyentt/MouseCHD",
       author='Hoa Nguyen',
-      author_email='hnguyent@gmail.com',
+      author_email='ntthoa.uphcm@gmail.com',
       license="MIT",
       packages=find_packages(),
       entry_points={
@@ -50,7 +51,7 @@ setup(name='mousechd',
           "nnunet==1.7.1",
           "volumentations-3D",
           "tensorflow",
-          "napari",
-          "PyQt5"
+        #   "napari",
+        #   "PyQt5"
       ]
       )

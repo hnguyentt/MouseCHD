@@ -18,6 +18,7 @@ from mousechd.utils.tools import CACHE_DIR, set_logger
 from mousechd.classifier.evaluate import predict_folder, summarize_results
 from mousechd.classifier.train import train_clf
 from mousechd.classifier.augments import AUGMENT_POLS
+from mousechd.classifier.utils import download_clf_models
 
 
 def add_args(parser):
@@ -31,14 +32,20 @@ def add_args(parser):
     parser.add_argument("-configs", type=str, help="path to configs file")
     parser.add_argument("-log_dir", type=str, help="Logging directory for tensorboard",
                         default=os.path.join(CACHE_DIR, "LOGS", "Classifier"))
-    parser.add_argument("-evaluate", help="evaluate: best, none, all", 
-                        choices=["best", "none", "all"], default="best")
+    parser.add_argument("-evaluate", help="evaluate: best, none, all", type=str,
+                        choices=["best", "none", "all"], default="none")
+    parser.add_argument("-logfile", type=str, help="path to logfile", default=None)
+    parser.add_argument("-epochs", type=int, help="epochs", default=None)
     
 MONITOR_LIST = ["val_loss","val_accuracy", "val_weighted_accuracy"]
 
 def main(args):
+    download_clf_models()
     # Process arguments
     configs = json.load(open(args.configs, "r"))
+    if args.epochs is not None:
+        configs["epochs"] = args.epochs
+        
     if configs["n_classes"] == 1:
         assert configs["loss_fn"] in ["binary_crossentropy","sigmoid_focal_crossentropy"], "loss_fn for n_classes=1: binary_crossentropy,sigmoid_focal_crossentropy"
     else:
@@ -57,10 +64,14 @@ def main(args):
     
     save_dir = os.path.join(args.exp_dir, args.exp)
     os.makedirs(save_dir, exist_ok=True)
-    set_logger(os.path.join(save_dir, "training.log"))
+    if args.logfile is not None:
+        os.makedirs(os.path.dirname(args.logfile), exist_ok=True)
+        set_logger(args.logfile)
+    else:
+        set_logger(os.path.join(save_dir, "training.log"))
     
     with open(os.path.join(save_dir, "configs.json"),"w") as f:
-        json.dump(configs,f, indent=1)
+        json.dump(configs, f, indent=1)
     
     # TRain  
     logging.info("="*15 + "//" + "="*15)
@@ -73,48 +84,47 @@ def main(args):
                       log_dir=args.log_dir)
     
     # Evaluate
-    logging.info("="*15 + "//" + "="*15)
-    if args.testdir is None:
-        testdir = args.data_dir
-    else:
-        testdir = args.testdir
-    logging.info("EVALUATE")
-    sum_df_path = os.path.join(save_dir, "results", "summary.csv")
-    try:
-        sum_df = pd.read_csv(sum_df_path)
-    except FileNotFoundError:
-        sum_df = pd.DataFrame(columns=["ckpt", "testfile",
-                                       "acc", "bal_acc",
-                                       "sens", "spec", "auc"])
-    df = pd.read_csv(test_path)
-    ## Restore ckpt
-    if args.evaluate == "none":
-        ckpts = []
-    elif args.evaluate == "best":
-        ckpts = [find_best_ckpt(save_dir, re.sub(r"^val_", "", configs["monitor"]))]
-    else:
-        ckpts = sorted([x for x in os.listdir(save_dir)
-                        if x.endswith(".hdf5") and (not x.startswith("."))])
-    
-    for ckpt in ckpts:
-        logging.info("Restore: {}".format(ckpt))
-        model.load_weights(os.path.join(save_dir, ckpt))
+    if args.evaluate != "none":
+        logging.info("="*15 + "//" + "="*15)
+        if args.testdir is None:
+            testdir = args.data_dir
+        else:
+            testdir = args.testdir
+        logging.info("EVALUATE")
+        sum_df_path = os.path.join(save_dir, "results", "summary.csv")
+        try:
+            sum_df = pd.read_csv(sum_df_path)
+        except FileNotFoundError:
+            sum_df = pd.DataFrame(columns=["ckpt", "testfile",
+                                        "acc", "bal_acc",
+                                        "sens", "spec", "auc"])
+        df = pd.read_csv(test_path)
+        ## Restore ckpt
+        if args.evaluate == "best":
+            ckpts = [find_best_ckpt(save_dir, re.sub(r"^val_", "", configs["monitor"]))]
+        else:
+            ckpts = sorted([x for x in os.listdir(save_dir)
+                            if x.endswith(".hdf5") and (not x.startswith("."))])
         
-        res = predict_folder(model=model,
-                            imdir=testdir,
-                            maskdir=None,
-                            target_size=configs["input_size"],
-                            label_df=df,
-                            stage="eval",
-                            batch_size=args.test_bz,
-                            save=os.path.join(save_dir, "results", ckpt, os.path.basename(test_path)),
-                            grouped_result=True)
-        
-        sum_df = summarize_results(df=res,
-                                   ckpt=ckpt,
-                                   test_fn=os.path.basename(test_path),
-                                   sum_df=sum_df,
-                                   grouped_result=True)
-        
-        sum_df.to_csv(sum_df_path, index=False)
+        for ckpt in ckpts:
+            logging.info("Restore: {}".format(ckpt))
+            model.load_weights(os.path.join(save_dir, ckpt))
+            
+            res = predict_folder(model=model,
+                                imdir=testdir,
+                                maskdir=None,
+                                target_size=configs["input_size"],
+                                label_df=df,
+                                stage="eval",
+                                batch_size=args.test_bz,
+                                save=os.path.join(save_dir, "results", ckpt, os.path.basename(test_path)),
+                                grouped_result=True)
+            
+            sum_df = summarize_results(df=res,
+                                    ckpt=ckpt,
+                                    test_fn=os.path.basename(test_path),
+                                    sum_df=sum_df,
+                                    grouped_result=True)
+            
+            sum_df.to_csv(sum_df_path, index=False)
         

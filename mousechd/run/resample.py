@@ -11,13 +11,18 @@ def add_args(parser):
     parser.add_argument("-metafile", type=str, help="Input meta file", default=None)
     parser.add_argument("-sep", type=str, help="Input meta file", default=",")
     parser.add_argument("-save_images", type=int, choices=[0,1], help="save images?", default=0)
+    parser.add_argument("-logfile", type=str, help="path to logfile", default=None)
 
     return parser
     
 def main(args): 
     # Logging
     os.makedirs(name=args.outdir, exist_ok=True)
-    set_logger(os.path.join(args.outdir, "resample.log"))
+    if args.logfile is not None:
+        os.makedirs(os.path.dirname(args.logfile), exist_ok=True)
+        set_logger(args.logfile)
+    else:
+        set_logger(os.path.join(args.outdir, "resample.log"))
         
     resample_folder(imdir=args.imdir,
                     maskdir=args.maskdir,

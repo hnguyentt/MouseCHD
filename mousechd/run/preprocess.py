@@ -28,6 +28,7 @@ def add_args(parser):
     parser.add_argument("-metafile", type=str, help="path to metadata file", default=None)
     parser.add_argument("-sep", type=str, help="separator in metadata file", default=",")
     parser.add_argument("-outdir", type=str, help="output directory (relative to database)")
+    parser.add_argument("-logfile", type=str, help="path to logfile", default=None)
     parser.add_argument("-kwargs", type=str, help="optional information such as 'orientation', 'spacing'",
                         default="{'orientation': 'SAR', 'spacing': (0.02, 0.02, 0.02)}")
     
@@ -35,7 +36,11 @@ def add_args(parser):
 
 def main(args):
     os.makedirs(args.outdir, exist_ok=True)
-    set_logger(os.path.join(args.outdir, "preprocess.log"))
+    if args.logfile is not None:
+        os.makedirs(os.path.dirname(args.logfile), exist_ok=True)
+        set_logger(args.logfile)
+    else:
+        set_logger(os.path.join(args.outdir, "preprocess.log"))
     
     Preprocess(database=args.database, 
                imdir=args.imdir,

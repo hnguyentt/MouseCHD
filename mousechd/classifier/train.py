@@ -2,7 +2,7 @@
 Train models 
 """
 import os, re
-import json, pickle
+import json
 import pandas as pd
 import numpy as np
 import logging
@@ -16,7 +16,7 @@ from tensorflow.keras.callbacks import (ReduceLROnPlateau,
 from sklearn.utils import class_weight
 
 from .datagens import MouseCHDGen
-from .utils import load_label, calculate_metrics
+from .utils import load_label, calculate_metrics, download_clf_models, CLF_DIR
 from .models import load_MouseCHD_model, MouseCHD
 from .evaluate import predict_folder
 
@@ -116,7 +116,13 @@ def train_clf(save_dir,
     
     # Evaluate initial model and resume   
     if configs["resume"] is not None:
-        model.load_weights(os.path.join(save_dir, configs["resume"]))
+        try:
+            model.load_weights(os.path.join(save_dir, configs["resume"]))
+        except FileNotFoundError:
+            logging.info("Resumed weights not found, retrain from default weights")
+            download_clf_models()
+            model.load_weights(os.path.join(CLF_DIR, "best_model.hdf5"))
+            
         try:
             initial_epoch = int(configs["resume"].split("-")[1])
         except IndexError:

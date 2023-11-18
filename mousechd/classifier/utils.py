@@ -179,4 +179,3 @@ def find_best_ckpt(savedir, monitor):
     else:
         return sorted_ckpts[-1] + ".hdf5"
     
-    

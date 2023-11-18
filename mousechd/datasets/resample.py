@@ -54,7 +54,7 @@ def resample_folder(imdir,
         meta.to_csv(os.path.join(outdir, os.path.basename(metafile)), index=False)
         
     df = create_resampling_df(outdir=outdir)
-    filenames = [x for x in filenames if x not in df["heart_name"]]
+    filenames = [x for x in filenames if x not in df["heart_name"].tolist()]
     logging.info("Need to process: {}".format(len(filenames)))
     
     for i, heart_name in enumerate(filenames):
@@ -94,8 +94,8 @@ def resample_folder(imdir,
             sitk.WriteImage(resampled_img, os.path.join(outdir, "images_x5", fn)) 
             
         df.loc[len(df), :] = [heart_name,
-                              resampled_im.shape,
-                              spaces,
+                              str(resampled_im.shape),
+                              str(spaces),
                               cropped_im.max(),
                               cropped_im.min(),
                               cropped_im.mean(),

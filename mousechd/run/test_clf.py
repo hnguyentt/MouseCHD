@@ -16,7 +16,7 @@ def add_args(parser):
     parser.add_argument("-ckpt", help="name of checkpoint to restore", default="best_model.hdf5")
     parser.add_argument("-imdir", help="image directory")
     parser.add_argument("-maskdir", help="mask directory", default=None)
-    parser.add_argument("-label_csv", help="path to label csv file", default=None)
+    parser.add_argument("-label", help="path to label csv file", default=None)
     parser.add_argument("-stage", help="stage: ['eval', 'test']", choices=["test", "eval"], default="test")
     parser.add_argument("-batch_size", type=int, help="batch size", default=8)
     parser.add_argument("-outdir", help="output directory", default=None)
@@ -40,10 +40,10 @@ def main(args):
     if args.savename is not None:
         savename = args.savename
     else:
-        if args.label_csv is None:
+        if args.label is None:
             savename = "test.csv"
         else:
-            savename = os.path.basename(args.label_csv)
+            savename = os.path.basename(args.label)
     
     # Summary dataframe
     try:
@@ -84,7 +84,7 @@ def main(args):
                                     weights_path=os.path.join(os.path.dirname(conf_path), ckpt))
         target_size = model.layers[0].output_shape[0][1:]
         
-        label_df = pd.read_csv(args.label_csv)
+        label_df = pd.read_csv(args.label)
         
         df = predict_folder(model=model,
                             imdir=args.imdir,

@@ -11,14 +11,15 @@ import tensorflow as tf
 import logging
 
 from mousechd.classifier.utils import (MODEL_NAMES,
+                                       CLF_DIR,
                                        eval_clf,
                                        find_best_ckpt,
-                                       calculate_metrics)
+                                       calculate_metrics,
+                                       download_clf_models)
 from mousechd.utils.tools import CACHE_DIR, set_logger
 from mousechd.classifier.evaluate import predict_folder, summarize_results
 from mousechd.classifier.train import train_clf
 from mousechd.classifier.augments import AUGMENT_POLS
-from mousechd.classifier.utils import download_clf_models
 
 
 def add_args(parser):
@@ -29,7 +30,7 @@ def add_args(parser):
     parser.add_argument("-test_path", type=str, help="path to test file", default=None)
     parser.add_argument("-testdir", type=str, help="test datadir", default=None)
     parser.add_argument("-test_bz", type=int, help="test batch size", default=16)
-    parser.add_argument("-configs", type=str, help="path to configs file")
+    parser.add_argument("-configs", type=str, help="path to configs file", default=None)
     parser.add_argument("-log_dir", type=str, help="Logging directory for tensorboard",
                         default=os.path.join(CACHE_DIR, "LOGS", "Classifier"))
     parser.add_argument("-evaluate", help="evaluate: best, none, all", type=str,
@@ -42,7 +43,10 @@ MONITOR_LIST = ["val_loss","val_accuracy", "val_weighted_accuracy"]
 def main(args):
     download_clf_models()
     # Process arguments
-    configs = json.load(open(args.configs, "r"))
+    if args.configs is None:
+        configs = json.load(open(os.path.join(CLF_DIR, "configs.json"), "r"))
+    else:
+        configs = json.load(open(args.configs, "r"))
     if args.epochs is not None:
         configs["epochs"] = args.epochs
         

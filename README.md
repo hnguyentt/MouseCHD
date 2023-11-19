@@ -104,6 +104,14 @@ mousechd test_clf \
 
 </details>
 
+## GradCAM
+```bash
+mousechd explain \
+-exp_dir "OUTPUTS/Classifier/<EXPERIMENT_NAME>" \
+-imdir "DATA/resampled/images" \
+-outdir [PATH/TO/OUTPUT/DIRECTORY]
+```
+
 ## Analysis
 A detailed analysis can be found in the folder [analysis](./analysis/).
 For some visualization, [Napari](https://napari.org/stable/) is required. To install: `pip install "napari[all]`.

@@ -14,7 +14,7 @@ from mousechd.classifier.gradcam import GradCAM3D, overlay3d, generate_parellel
 from mousechd.classifier.datagens import MouseCHDEvalGen
 from mousechd.classifier.models import load_MouseCHD_model
 from mousechd.classifier.utils import download_clf_models
-from mousechd.datasets.utils import norm_min_max, resample3d
+from mousechd.datasets.utils import norm_min_max, resample3d, get_largest_connectivity
 
 
 def add_args(parser):
@@ -68,7 +68,9 @@ def main(args):
             imname = re.sub(r"_0000$", "", imname)
             mask = sitk.ReadImage(os.path.join(args.maskdir, imname))
             ma = sitk.GetArrayFromImage(mask)
-            max_clump = get_largest_connectivity(ma)
+            bin_mask = ma.copy()
+            bin_mask[bin_mask != 0] = 1
+            max_clump = get_largest_connectivity(bin_mask)
             cropped_im, cropped_ma = crop_heart_bbx(im, max_clump, pad=(5,5,5))
             resampled_im = maskout_non_heart(cropped_im, cropped_ma)
             resampled_im = norm_min_max(resampled_im)

@@ -100,9 +100,9 @@ def main(args):
                                                start_idx=start_idx)
         else:
             stacked_im = stack_slices(im=im,
-                                    num=args.num,
-                                    trans_val=args.trans_val,
-                                    start_idx=start_idx)
+                                      num=args.num,
+                                      trans_val=args.trans_val,
+                                      start_idx=start_idx)
         
         if args.heart_cnt == 0:
             outname = "{}_{}_{}-{}-{}{}.png".format(today, imname, args.num, args.trans_val, start_idx, suffix)

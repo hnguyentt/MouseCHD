@@ -7,7 +7,8 @@ import imageio.v2 as imageio
 import SimpleITK as sitk
 from skimage.transform import rescale
 from mousechd.datasets.utils import (crop2dimage, 
-                                           get_bbx)
+                                     get_bbx,
+                                     get_largest_connectivity)
 from mousechd.utils.analyzer import (gen_white2blue_cmap,
                                      gen_white2red_cmap,
                                      build_3d_bbx)
@@ -60,8 +61,8 @@ def main(args):
     start_time = time.time()
     
     img = sitk.ReadImage(os.path.join(imdir, imname + "_0000"))
-    im = sitk.GetArrayFromImage(img)
-    im = rescale(im, args.rescale_ratio)
+    ori_im = sitk.GetArrayFromImage(img)
+    im = rescale(ori_im, args.rescale_ratio)
     im = (im - im.min()) / (im.max() - im.min())
     print('Finish loading and processing image. Current processing time {}'.format(
         time.strftime("%Hh%Mm%Ss", time.gmtime(time.time()-start_time))
@@ -79,6 +80,11 @@ def main(args):
     if maskdir is not None:
         mask = sitk.ReadImage(os.path.join(maskdir, imname))
         ma = sitk.GetArrayFromImage(mask)
+        bin_mask = ma.copy()
+        bin_mask[bin_mask != 0] = 1
+        max_clump = get_largest_connectivity(bin_mask)
+        ma = ori_im.copy()
+        ma[max_clump==0] = 0
         ma = rescale(ma, args.rescale_ratio)
         ma = (ma - ma.min()) / (ma.max() - ma.min())
         print('Finish loading and processing mask. Current processing time {}'.format(
@@ -90,6 +96,7 @@ def main(args):
                          colormap=args.heart_cmap,
                          opacity=args.heart_opac,
                          contrast_limits=(0.520, 0.791),
+                        #  contrast_limits=(0.1, 0.8)
                          )
         
         if args.bbx != "none":

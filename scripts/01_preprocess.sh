@@ -4,7 +4,10 @@ export XLA_FLAGS=--xla_gpu_cuda_data_dir=/c7/shared/cuda/11.8.0_520.61.05
 conda activate mousechd
 DATADIR="$HOME/DATA/INCEPTION_2020-CHD/Mice/DATA"
 
-# 1st batch
+
+#############
+# 1ST BATCH #
+#############
 mousechd preprocess \
     -database "$DATADIR" \
     -imdir "CTs/raw/Imagine/images_20200206" \
@@ -14,13 +17,29 @@ mousechd preprocess \
     -sep ";" \
     -outdir "$DATADIR/CTs/processed1/Imagine"
 
-# 2nd batch
+mousechd prepare_nnUNet_data \
+    -datadir "$DATADIR/CTs/processed/Imagine" \
+    -seed 42 \
+    -nnunet_dir "$HOME/DATA/nnUnet/nnUNet_raw/nnUNet_raw_data/Task103_MouseHeartImagine" \
+    -test_size 0.2 \
+    -save_test True
+
+#############
+# 2ND BATCH #
+#############
 mousechd preprocess \
     -database "$DATADIR" \
     -imdir "CTs/raw/Imagine/images_20200206" \
     -maskdir "$DATADIR/CTs/raw/Imagine/masks_20210708" \
     -masktype TIF2d \
     -outdir "$DATADIR/CTs/processed1/Imagine"
+
+mousechd prepare_nnUNet_data \
+    -datadir "$DATADIR/CTs/processed/Imagine" \
+    -seed 42 \
+    -nnunet_dir "$HOME/DATA/nnUnet/nnUNet_raw/nnUNet_raw_data/Task113_MouseHeartImagine20210807" \
+    -continue_from "Task103_MouseHeartImagine" \
+    -test_size 0.4
 
 ############
 # NEW DATA #

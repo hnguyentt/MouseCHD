@@ -50,7 +50,7 @@ setup(name='mousechd',
           "PyYAML",
           "nnunet==1.7.1",
           "volumentations-3D",
-          "tensorflow",
+          "tensorflow==2.14.0",
         #   "napari",
         #   "PyQt5"
       ]

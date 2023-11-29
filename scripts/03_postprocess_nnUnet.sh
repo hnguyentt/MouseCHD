@@ -1,5 +1,5 @@
-DATADIR="$HOME/DATA/INCEPTION_2020-CHD/Mice/OUTPUTS/refactor/CTs/HeartSeg/nnUnet/Task113_MouseHeartImagine20210807"
+DATADIR="$HOME/DATA/INCEPTION_2020-CHD/Mice/OUTPUTS/HeartSeg"
 
 mousechd postprocess_nnUNet \
-    -indir "$DATADIR/TIF/ensemble" \
-    -outdir "$DATADIR/TIF/Final"
+    -indir "$DATADIR/Imagine" \
+    -outdir "$DATADIR/POSTPROCESSED"

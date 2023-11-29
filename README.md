@@ -1,6 +1,7 @@
 ![Thumbnail](https://raw.githubusercontent.com/hnguyentt/MouseCHD/master/assets/thumbnail.png)
 
 Screening of Congenital Heart Diseases (CHD) in mice with 3D <img src="https://latex.codecogs.com/svg.latex?\mu" /> CTscans.
+
 ***Napari plugin: [MouseCHD Napari plugin](https://github.com/hnguyentt/mousechd-napari)***
 
 
@@ -114,6 +115,7 @@ mousechd explain \
 
 ## Analysis
 A detailed analysis can be found in the folder [analysis](./analysis/).
+
 For some visualization, [Napari](https://napari.org/stable/) is required. To install: `pip install "napari[all]`.
 
 

@@ -61,7 +61,7 @@ class GradCAM3D:
 
         # Apply reLU
         cam = np.maximum(cam, 0)
-        cam = np.pad(cam, (4,4),"constant")
+        cam = np.pad(cam, ((1,1), (3,3), (3,3)),"constant")
         cam = resize(cam, upsample_size)
         cam = (cam - cam.min())/(cam.max()-cam.min())
         

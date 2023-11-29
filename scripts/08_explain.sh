@@ -1,6 +1,7 @@
-module add cudnn/v8.7.0.84/cuda-11.8.0_520.61.05
+# module add cudnn/v8.7.0.84/cuda-11.8.0_520.61.05
+module load cuda/11.8.0_520.61.05
 export XLA_FLAGS=--xla_gpu_cuda_data_dir=/c7/shared/cuda/11.8.0_520.61.05
-conda activate mousechd
+source activate mousechd
 WORKDIR="$HOME/DATA/INCEPTION_2020-CHD/Mice"
 
 

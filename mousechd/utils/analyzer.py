@@ -575,8 +575,8 @@ def plot_gallery(ims, masks=None, ncols=4, **kwargs):
     Returns:
         fig (plt.figure): figure of gallery
     """
-    x_max = max([x.shape[0] for x in ims])
-    y_max = max([x.shape[1] for x in ims])
+    x_max = max([x.shape[1] for x in ims])
+    y_max = max([x.shape[0] for x in ims])
     
     if masks is None:
         masks = [None] * len(ims)

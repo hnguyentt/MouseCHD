@@ -2,7 +2,8 @@
 
 This folder contain plotting code for Figures in the paper. Some scripts require Napari to run: `pip install "napari[all]"`.
 
-## Figure 1
+## Main figures
+### Figure 1
 * Figure 1a: see [scripts/09_analyze.sh](../scripts/09_analyze.sh)
   * Plot 3D stages: `mousechd viz3d_stages -h` to see the instruction. Example:
     ```bash
@@ -37,9 +38,26 @@ This folder contain plotting code for Figures in the paper. Some scripts require
 
 * Figure 1b & 1c: See [01_eda.ipynb](./01_eda.ipynb)
 
+### Figure 3
+* See [03_segmentation.ipynb](./03_segmentation.ipynb)
 
-## Figure 5
+### Figure 4
+* See [04_diagnosis.ipynb](./04_diagnosis.ipynb)
+  
+### Figure 5
 * Figure 5a: [scripts/09_analyze.sh](../scripts/09_analyze.sh)
+* Figure 5b-g: [04_diagnosis.ipynb](./04_diagnosis.ipynb)
 
-## Supplementary Figure 4
+## Supplementary figures
+
+### Supplementary Figure 1
+* See [03_segmentation.ipynb](./03_segmentation.ipynb)
+
+### Supplementary Figure 3
+* See [04_diagnosis.ipynb](./04_diagnosis.ipynb)
+
+### Supplementary Figure 4
 * See [01_eda.ipynb](./01_eda.ipynb)
+
+### Supplementary Figure 5
+* See [scripts/08_explain.sh](../scripts/08_explain.sh)

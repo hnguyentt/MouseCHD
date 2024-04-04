@@ -39,6 +39,17 @@ srun -J "retrain" --pty --gres=gpu:1 -c 4 mousechd train_clf \
     -configs "$SRCDIR/assets/configs/configs.json" \
     -log_dir "$WORKDIR/LOGS" -evaluate "all"
 
+# Revision
+srun -J "retrain" --pty --gres=gpu:1 -c 4 mousechd train_clf \
+    -exp_dir "$WORKDIR/OUTPUTS" \
+    -exp "Classifier/retrain_refined" \
+    -data_dir "$WORKDIR/DATA/CTs/resampled" \
+    -label_dir "$WORKDIR/DATA/CTs/labels/x5_base/retrain_refined" \
+    -test_path "$WORKDIR/DATA/CTs/labels/divergence.csv" \
+    -testdir "$WORKDIR/DATA/CTs/resampled" \
+    -configs "$SRCDIR/assets/configs/configs.json" \
+    -log_dir "$WORKDIR/LOGS" -evaluate "all"
+
 
 ##################
 # RUN ON MAESTRO #

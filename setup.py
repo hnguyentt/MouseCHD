@@ -51,6 +51,7 @@ setup(name='mousechd',
           "nnunet==1.7.1",
           "volumentations-3D",
           "tensorflow==2.14.0",
+          "brokenaxes"
         #   "napari",
         #   "PyQt5"
       ]

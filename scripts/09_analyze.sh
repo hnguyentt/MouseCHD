@@ -7,7 +7,7 @@ RESAMPLEDIR="$HOME/DATA/INCEPTION_2020-CHD/Mice/DATA/CTs/resampled"
 OUTDIR="$HOME/DATA/INCEPTION_2020-CHD/Mice/OUTPUTS"
 SAVEDIR="$HOME/DATA/INCEPTION_2020-CHD/Mice/PAPER/FIGURES"
 
-# For visualization: conda install -c conda-forge napari
+# For visualization: pip install "napari[all]"
 
 ########################
 # Figure 01 components #

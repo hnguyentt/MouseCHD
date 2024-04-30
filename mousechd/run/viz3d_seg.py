@@ -26,6 +26,7 @@ def add_args(parser):
     
 def main(args):
     import napari
+    scale = (0.02, 0.02, 0.02)
     
     today = datetime.datetime.now().strftime('%Y%m%d')
     kwargs = eval(args.kwargs)
@@ -46,9 +47,11 @@ def main(args):
     
     viewer = napari.Viewer()
     viewer.add_image(img,
-                     name=args.imname)
+                     name=args.imname,
+                     scale=scale)
     viewer.add_image(merged,
                      name='mask_{}'.format(args.imname),
+                     scale=scale,
                      colormap=cmap,
                      opacity=kwargs.get('opacity', 0.5)
                      )
@@ -56,6 +59,8 @@ def main(args):
     viewer.theme = 'light'
     viewer.dims.ndisplay = 3
     viewer.camera.angles = kwargs.get('angles', (0,45,0))
+    viewer.scale_bar.visible = True
+    viewer.scale_bar.unit = "mm"
     
     if args.savedir is not None:
         os.makedirs(args.savedir, exist_ok=True)

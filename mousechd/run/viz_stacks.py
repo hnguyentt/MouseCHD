@@ -29,6 +29,7 @@ def add_args(parser):
     parser.add_argument('-plot_border', type=int, choices=[0,1], help='Plot border or not?', default=0)
     parser.add_argument('-color', help='border color or list of border colors seperated by ";"', default='b')
     parser.add_argument('-linestyle', help='linestyle for zline in multiple stack', default='--')
+    parser.add_argument('-scalebar', help='value on scale bar (in mm)', default=None)
     parser.add_argument('-savedir', type=str, help='Directory to save image')
     
     
@@ -126,6 +127,7 @@ def main(args):
                         zline_color=args.zline_color,
                         plot_border=bool(args.plot_border),
                         color=color,
+                        scalebar=args.scalebar,
                         save=os.path.join(args.savedir, outname)
                         )
         

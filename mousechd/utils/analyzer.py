@@ -276,6 +276,7 @@ def plot_stacked_im(stacked_im, **kwargs):
     zline_color = kwargs.get('zline_color', 'b')
     plot_border = kwargs.get('plot_border', False)
     color = kwargs.get('color', 'b')
+    scalebar = kwargs.get('scalebar', None)
     save = kwargs.get('save', None)
     
     if plot_border or plot_zline:
@@ -344,6 +345,34 @@ def plot_stacked_im(stacked_im, **kwargs):
                 c=zline_color,
                 linestyle='-',
                 linewidth=linewidth)
+    
+    # Add scale
+    if scalebar is not None:
+        scalebar = eval(scalebar)
+        scale_val = scalebar.get("value", 2)
+        sb_linewidth = scalebar.get("linewidth", linewidth*2)
+        markersize = scalebar.get("markersize", 15)
+        fontsize = scalebar.get("fontsize", 40)
+        h_pos = scalebar.get("h_pos", 1.8)
+        x = stacked_im.shape[0]/12
+        y = stacked_im.shape[1]/12
+        pixel_size = 0.02
+        scale = scale_val/pixel_size
+        ax.plot([x, x+scale],
+                [y, y],
+                color="w",
+                marker="|",
+                markersize=15,
+                markeredgewidth=sb_linewidth,
+                linewidth=sb_linewidth)
+        ax.text(x+scale/2, 
+                y*h_pos, 
+                f"{scale_val}mm",
+                color="w",
+                ha="center", va="top",
+                weight="bold",
+                fontsize=fontsize)
+    # Finish add scale
     
     ax.axis("off")
     fig.tight_layout(pad=0, w_pad=0, h_pad=0)
@@ -575,6 +604,7 @@ def plot_gallery(ims, masks=None, ncols=4, **kwargs):
     Returns:
         fig (plt.figure): figure of gallery
     """
+    scalebar = kwargs.get("scalebar", False)
     x_max = max([x.shape[1] for x in ims])
     y_max = max([x.shape[0] for x in ims])
     
@@ -599,6 +629,27 @@ def plot_gallery(ims, masks=None, ncols=4, **kwargs):
                            cmap=kwargs.get('mask_cmap', 'jet'), 
                            vmin=vmin, vmax=vmax, 
                            alpha=kwargs.get('alpha', 1.))
+            if scalebar:
+                scale_val = 1.5
+                pixel_size = 0.02
+                scale = 1.5/pixel_size
+                x = im.shape[0]/2 - scale/2
+                y = im.shape[1]/5
+                
+                axes[i].plot([x, x+scale],
+                        [y, y],
+                        color="g",
+                        marker="|",
+                        markersize=15,
+                        markeredgewidth=5,
+                        linewidth=5)
+                axes[i].text(x+scale/2, 
+                        y*1.5, 
+                        f"{scale_val}mm",
+                        color="g",
+                        ha="center", va="top",
+                        weight="bold",
+                        fontsize=20)
         
     for i in range(ncols*nrows):
         axes[i].set_xlim([0,x_max])
@@ -641,6 +692,7 @@ def create_gradcam_grid(ims, cams, idx=None):
     imgs = []
     masks = []
     if idx is None:
+        im = ims[0]
         idx = [im.shape[0]//2, im.shape[1]//2, im.shape[2]//2]
     else:
         assert len(idx) == 3, "idx must contain 3 integers"

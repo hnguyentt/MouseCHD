@@ -46,7 +46,12 @@ def main(args):
         
     imgs, masks = create_gradcam_grid(ims, cams)
     logging.info("Plot GradCAM 2D")
-    fig = plot_gallery(imgs, masks, ncols=3, alpha=0.5, figsize=(15,25))
+    fig = plot_gallery(imgs, 
+                       masks, 
+                       ncols=3, 
+                       alpha=0.5, 
+                       figsize=(15,25),
+                       scalebar=True)
     fig.savefig(os.path.join(args.savedir, f"{today}_gradcam2d{suffix}.svg"),
                 bbox_inches="tight",
                 dpi=100)
@@ -55,8 +60,9 @@ def main(args):
     logging.info("Plot gradcam3d")
     import napari
     viewer = napari.Viewer()
+    scale = (0.02, 0.02, 0.02)
 
-    trans_val = 300
+    trans_val = 300*scale[0]
     for i, imname in enumerate(imls): 
         im = ims[i]
         cam = cams[i]
@@ -64,9 +70,11 @@ def main(args):
         
         viewer.add_image(im,
                         name=imname,
+                        scale=scale,
                         translate=[0, trans_val*i, 0],)
         viewer.add_image(cam,
                         name=f'cam_{imname}',
+                        scale=scale,
                         translate=[0, trans_val*i, 0],
                         colormap='jet',
                         contrast_limits=(0,250),
@@ -75,7 +83,9 @@ def main(args):
     viewer.theme = 'system'
     viewer.dims.ndisplay = 3
     viewer.camera.angles = (0, 45, 0)
-    viewer.camera.zoom = 2
+    viewer.camera.zoom = 100
+    viewer.scale_bar.visible = True
+    viewer.scale_bar.unit = "mm"
 
     
     viewer.screenshot(os.path.join(args.savedir, f"{today}_gradcam3d{suffix}.png"))

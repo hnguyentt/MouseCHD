@@ -61,6 +61,7 @@ def main(args):
     start_time = time.time()
     
     img = sitk.ReadImage(os.path.join(imdir, imname + "_0000"))
+    scale = img.GetSpacing()[::-1]
     ori_im = sitk.GetArrayFromImage(img)
     im = rescale(ori_im, args.rescale_ratio)
     im = (im - im.min()) / (im.max() - im.min())
@@ -68,6 +69,7 @@ def main(args):
         time.strftime("%Hh%Mm%Ss", time.gmtime(time.time()-start_time))
     ))
     viewer.add_image(im,
+                     scale=scale,
                      name=stage,
                      colormap='twilight',
                      gamma=2.,
@@ -92,11 +94,12 @@ def main(args):
             ))
         
         viewer.add_image(ma,
+                         scale=scale,
                          name=f"mask_{stage}",
                          colormap=args.heart_cmap,
                          opacity=args.heart_opac,
-                         contrast_limits=(0.520, 0.791),
-                        #  contrast_limits=(0.1, 0.8)
+                        #  contrast_limits=(0.520, 0.791),
+                         contrast_limits=(0.1, 0.8)
                          )
         
         if args.bbx != "none":
@@ -104,10 +107,11 @@ def main(args):
             (min_z, max_z), (min_y, max_y), (min_x, max_x) = get_bbx(ma, pad=pad)
             
             if args.bbx in ['axial', 'both']:
-                trans_vals = (min_z, 0, 0)
+                trans_vals = (min_z*scale[0], 0, 0)
                 bbx_shape = (max_z-min_z, im.shape[1], im.shape[0])
                 bbx = build_3d_bbx(bbx_shape, 1)
                 viewer.add_image(bbx,
+                                 scale=scale,
                                  name=f"axial_{stage}",
                                  colormap=gen_white2blue_cmap(),
                                  opacity=args.bbxaxial_opac,
@@ -115,10 +119,11 @@ def main(args):
                                  translate=trans_vals)
                 
             if args.bbx in ['heart', 'both']:
-                trans_vals = (min_z, min_y, min_x)
+                trans_vals = (min_z*scale[0], min_y*scale[1], min_x*scale[2])
                 bbx_shape = (max_z-min_z, max_y-min_y, max_x-min_x)
                 bbx = build_3d_bbx(bbx_shape, 1)
                 viewer.add_image(bbx,
+                                 scale=scale,
                                  name=f"heart_{stage}",
                                  colormap=gen_white2red_cmap(),
                                  opacity=args.bbxheart_opac,
@@ -130,6 +135,8 @@ def main(args):
     if args.zoom is not None:
         viewer.camera.zoom = args.zoom
     viewer.camera.angles = eval(args.cam_angles)
+    viewer.scale_bar.visible = True
+    viewer.scale_bar.unit = "mm"
     
     if savedir is not None:
         os.makedirs(savedir, exist_ok=True)

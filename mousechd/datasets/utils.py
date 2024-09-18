@@ -11,9 +11,6 @@ from skimage.measure import label
 import itertools
 import re
 import os
-import requests
-
-from mousechd.utils.tools import load_csv_data
 
 DATA_MODULE = "mousechd.datasets.data"
 

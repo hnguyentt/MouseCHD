@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-import argparse
 
 from mousechd.datasets.preprocess import x5_df
 

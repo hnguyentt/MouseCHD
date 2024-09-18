@@ -4,18 +4,22 @@ Utilities for the package
 
 import logging
 import os
+from glob import glob
 from datetime import datetime
 from importlib import resources
 import yaml
 from functools import partialmethod
 from urllib import request
+import requests
+import zipfile
 
 import pandas as pd
 import numpy as np
 
 CACHE_DIR = os.path.join(os.path.expanduser("~"), ".MouseCHD")
 os.makedirs(CACHE_DIR, exist_ok=True)
-BASE_URI = "https://imjoy-s3.pasteur.fr/public/mousechd-napari"
+HEARTSEG_ID = "13785314" # Zenodo version ID of mouse heart segmentation model
+CLF_ID = "13785314" # Zenodo version ID of CHD classification
 
 
 def set_logger(log_path):
@@ -40,6 +44,7 @@ def set_logger(log_path):
     # Start every log with the date and time
     logging.info("="*15 + "//" + "="*15)
     logging.info(datetime.now())
+
 
 class DotDict(dict):
     """
@@ -221,3 +226,39 @@ def download_file(url,
         os.makedirs(os.path.dirname(outfile), exist_ok=True)
         request.urlretrieve(url, outfile)
         logging.info("Done")
+        
+
+def download_zenodo(zenodo_id, filename, outdir, extract=False):
+    """Download file from Zenodo
+
+    Args:
+        zenodo_id (str): Zenodo ID
+        filename (str): filename to download
+        outdir (str): output directory to save file
+        extract (bool, optional): unzip downloaded file?. Defaults to False.
+    """
+    
+    url = f'https://zenodo.org/record/{zenodo_id}/files/{filename}?download=1' 
+    
+    os.makedirs(outdir, exist_ok=True)
+    output_file = os.path.join(outdir, filename)
+    
+    # Send a request to download the file
+    response = requests.get(url, stream=True)
+    
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Save file to the specified location
+        with open(output_file, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+        
+        if extract:
+            with zipfile.ZipFile(output_file, 'r') as zip_ref:
+                zip_ref.extractall(outdir)
+            
+            os.remove(output_file)
+            
+    else:
+        raise f"Failed to download file. Status code: {response.status_code}"

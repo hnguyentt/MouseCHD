@@ -5,20 +5,14 @@ Train classifier
 import os
 import json
 import re
-import argparse
 import pandas as pd
-import tensorflow as tf
 import logging
 
 from mousechd.classifier.utils import (MODEL_NAMES,
                                        CLF_DIR,
-                                       eval_clf,
                                        find_best_ckpt,
-                                       calculate_metrics,
                                        download_clf_models)
 from mousechd.utils.tools import CACHE_DIR, set_logger
-from mousechd.classifier.evaluate import predict_folder, summarize_results
-from mousechd.classifier.train import train_clf
 from mousechd.classifier.augments import AUGMENT_POLS
 
 
@@ -41,6 +35,10 @@ def add_args(parser):
 MONITOR_LIST = ["val_loss","val_accuracy", "val_weighted_accuracy"]
 
 def main(args):
+    import tensorflow as tf
+    from mousechd.classifier.evaluate import predict_folder, summarize_results
+    from mousechd.classifier.train import train_clf
+    
     download_clf_models()
     # Process arguments
     if args.configs is None:

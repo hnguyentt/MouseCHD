@@ -1,27 +1,25 @@
 import os, re
+import shutil
 import numpy as np
 import pandas as pd
 from sklearn import metrics
 import logging
-from pathlib import Path
 
-from ..utils.tools import BASE_URI, CACHE_DIR, download_file
+from ..utils.tools import CLF_ID, CACHE_DIR, download_zenodo
 
-CLF_DIR = os.path.join(CACHE_DIR, "Classifier")
+CLF_DIR = os.path.join(CACHE_DIR, "Classifier", CLF_ID, "Classifier")
 MODEL_NAMES = ["simple3d", "roimask3d", "roimask3d1"]
-
-clf_urls = {
-    "best_model.hdf5": f"{BASE_URI}/clf/best_model.hdf5",
-    "configs.json": f"{BASE_URI}/clf/configs.json"
-}
 
 
 def download_clf_models():
     """Download classifiers
     """
-    for fname, url in clf_urls.items():
-        fname = Path(fname)
-        download_file(url, fname, cache_dir=CLF_DIR, update=True)
+    if not os.path.isdir(CLF_DIR):
+        try:
+            shutil.rmtree(os.path.join(CACHE_DIR, "Classifier"))
+        except:
+            pass
+        download_zenodo(CLF_ID, "Classifier.zip", os.path.dirname(CLF_DIR), extract=True)
         
 
 def calculate_metrics(outputs, targets) -> dict:

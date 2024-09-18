@@ -1,24 +1,15 @@
-import sys, os, json
+import os
 import re
 import glob
 import numpy as np
 import pandas as pd
 import tifffile
-import cv2
 import SimpleITK as sitk
-import tensorflow as tf
 import logging 
-
-from mousechd.utils.tools import BASE_URI, set_logger
-from mousechd.classifier.gradcam import GradCAM3D, overlay3d, generate_parellel
-from mousechd.classifier.datagens import MouseCHDEvalGen
-from mousechd.classifier.models import load_MouseCHD_model
-from mousechd.classifier.utils import download_clf_models
-from mousechd.datasets.utils import norm_min_max, resample3d, get_largest_connectivity
 
 
 def add_args(parser):
-    parser.add_argument("-exp_dir", type=str, help="experiment directory", default=os.path.join(BASE_URI))
+    parser.add_argument("-exp_dir", type=str, help="experiment directory")
     parser.add_argument("-imdir", type=str, help="image directory")
     parser.add_argument("-maskdir", type=str, help="mask directory", default=None)
     parser.add_argument("-layer_name", type=str, help="layer name to generate GradCAM", default=None)
@@ -28,6 +19,13 @@ def add_args(parser):
     
 
 def main(args):
+    import tensorflow as tf
+    from mousechd.utils.tools import set_logger
+    from mousechd.classifier.gradcam import GradCAM3D, overlay3d, generate_parellel
+    from mousechd.classifier.models import load_MouseCHD_model
+    from mousechd.classifier.utils import download_clf_models
+    from mousechd.datasets.utils import norm_min_max, resample3d, get_largest_connectivity
+    
     # Create output directories
     if args.outdir is None:
         outdir = os.path.join(args.exp_dir, "GradCAM", args.ckpt)

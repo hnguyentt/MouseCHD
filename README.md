@@ -33,7 +33,7 @@ This step standardizes the data into the same spacing and view.
 * Mask data format supported: "TIF2d", "TIF3d", "NIFTI"
 
 ```bash
-mousechd preprocess.py \
+mousechd preprocess \
     -database <PATH/TO/DATABASE> \
     -maskdir <PATH/TO/MASK/DIR> \
     -masktype NIFTI \

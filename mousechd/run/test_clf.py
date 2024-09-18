@@ -1,13 +1,9 @@
 import os, re
-import argparse
 import pandas as pd
 
-from mousechd.classifier.models import load_MouseCHD_model
-from mousechd.classifier.evaluate import predict_folder, summarize_results
 from mousechd.utils.tools import set_logger
 from mousechd.classifier.utils import (download_clf_models, 
-                                       CLF_DIR, 
-                                       calculate_metrics)
+                                       CLF_DIR)
 
 
 def add_args(parser):
@@ -26,6 +22,9 @@ def add_args(parser):
     
     
 def main(args):
+    from mousechd.classifier.models import load_MouseCHD_model
+    from mousechd.classifier.evaluate import predict_folder, summarize_results
+
     if args.device == 'cpu':
         os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
     if args.outdir is None:

@@ -9,14 +9,13 @@ from skimage.transform import resize
 import SimpleITK as sitk 
 import tensorflow as tf
 import logging
+import re
 
 from ..datasets.utils import (resample3d, 
                               get_largest_connectivity,
                               crop_heart_bbx,
                               maskout_non_heart,
-                              norm_min_max,
-                              make_isotropic,
-                              pad_image)
+                              norm_min_max)
 import mousechd.classifier.augments as augments
 
 

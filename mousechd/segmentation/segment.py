@@ -2,13 +2,13 @@ from time import time
 from pathlib import Path
 
 
-def segment_from_folder(indir, outdir, folds=None):
+def segment_from_folder(indir, outdir, folds=None, step_size=0.5, disable_mixed_precision=False):
     """Segment mouse heart with nnUNet
 
     Args:
         indir (str): input directory
         outdir (str): output directory
-        folds (str, optional): fold number to segment, otherwise it's ensembling 5 folds. Defaults to None.
+        folds (int, optional): fold number to segment, otherwise it's ensembling 5 folds. Defaults to None.
     """
     from nnunet.inference.predict import predict_from_folder
     from nnunet.paths import (default_cascade_trainer, 
@@ -24,7 +24,7 @@ def segment_from_folder(indir, outdir, folds=None):
     num_threads_preprocessing = 6
     num_threads_nifti_save = 2
     disable_tta = True
-    step_size = 0.5
+    step_size = step_size
     overwrite_existing = False
     mode = "normal"
     all_in_gpu = None
@@ -32,7 +32,7 @@ def segment_from_folder(indir, outdir, folds=None):
     trainer_class_name = default_trainer
     cascade_trainer_class_name = default_cascade_trainer
     task_name = 113
-    disable_mixed_precision = False
+    disable_mixed_precision = disable_mixed_precision
     chk = "model_final_checkpoint"
     
     

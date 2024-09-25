@@ -5,6 +5,7 @@ Train classifier
 import os
 import json
 import re
+import time
 import pandas as pd
 import logging
 
@@ -76,6 +77,7 @@ def main(args):
         json.dump(configs, f, indent=1)
     
     # TRain  
+    strat_time = time.time()
     logging.info("="*15 + "//" + "="*15)
     logging.info("TRAIN") 
     model = train_clf(save_dir=save_dir,
@@ -84,6 +86,8 @@ def main(args):
                       label_dir=args.label_dir, 
                       configs=configs,
                       log_dir=args.log_dir)
+    end_time = time.time()
+    logging.info("Training time (hours): {}".format((end_time - strat_time) / 3600))
     
     # Evaluate
     if args.evaluate != "none":

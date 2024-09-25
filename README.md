@@ -37,6 +37,9 @@ It is recommended that your data are structured in the following way:
             ......
 ```
 
+In case you use container, append these prefixes to the following commands:
+* Docker:
+* Apptainer: `apptainer exec --nv <path/to/mousechd.sif>`
 
 ### (1) Preprocessing
 
@@ -47,7 +50,8 @@ This step standardizes the data into the same spacing and view.
 ```bash
 mousechd preprocess \
     -database <PATH/TO/DATABASE> \
-    -maskdir <PATH/TO/MASK/DIR> \
+    -imdir <PATH/TO/IMAGE/DIR> \ # relative to databse
+    -maskdir <PATH/TO/MASK/DIR> \ # relative to database
     -masktype NIFTI \
     -metafile <PATH/TO/META/FILE> \ # csv file with headers: "heart_name", "Stage", "Normal heart", "CHD1", "CHD2", ...
     -outdir "DATA/processed"

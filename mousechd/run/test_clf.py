@@ -34,7 +34,6 @@ def main(args):
             sum_df_path = os.path.join(args.model_dir, args.fold, "results", "summary.csv")
     else:
         sum_df_path = os.path.join(args.outdir, "summary.csv")
-        print("DEBUG: {}".format(sum_df_path))
         
     if args.savename is not None:
         savename = args.savename

@@ -39,22 +39,22 @@ This folder contain plotting code for Figures in the paper. Some scripts require
 * Figure 1b & 1c: See [01_eda.ipynb](./01_eda.ipynb)
 
 ### Figure 3
-* See [03_segmentation.ipynb](./03_segmentation.ipynb)
+* See [02_segmentation.ipynb](./02_segmentation.ipynb)
 
 ### Figure 4
-* See [04_diagnosis.ipynb](./04_diagnosis.ipynb)
+* See [03_diagnosis.ipynb](./03_diagnosis.ipynb)
   
 ### Figure 5
 * Figure 5a: [scripts/09_analyze.sh](../scripts/09_analyze.sh)
-* Figure 5b-g: [04_diagnosis.ipynb](./04_diagnosis.ipynb)
+* Figure 5b-g: [03_diagnosis.ipynb](./03_diagnosis.ipynb)
 
 ## Supplementary figures
 
 ### Supplementary Figure 1
-* See [03_segmentation.ipynb](./03_segmentation.ipynb)
+* See [02_segmentation.ipynb](./02_segmentation.ipynb)
 
 ### Supplementary Figure 3
-* See [04_diagnosis.ipynb](./04_diagnosis.ipynb)
+* See [03_diagnosis.ipynb](./03_diagnosis.ipynb)
 
 ### Supplementary Figure 4
 * See [01_eda.ipynb](./01_eda.ipynb)

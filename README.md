@@ -6,9 +6,20 @@ Screening of Congenital Heart Diseases (CHD) in mice with 3D <img src="https://l
 
 
 ## Installation
+There are three ways that you can run the package:
+
+### Conda environment
 * Create virtual environment: `conda create -n mousechd python=3.9`
 * Activate the environment: `conda activate mousechd`
 * Install the package: `pip install mousechd`
+
+### Docker
+
+### Apptainer
+In case you run the package on HPC on which you don't have superuser permission, you can use Apptainer instead of docker.
+```bash
+
+```
   
 ## How to use
 
@@ -25,6 +36,7 @@ It is recommended that your data are structured in the following way:
             └── images_20201010
             ......
 ```
+
 
 ### (1) Preprocessing
 

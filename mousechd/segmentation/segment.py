@@ -2,7 +2,13 @@ from time import time
 from pathlib import Path
 
 
-def segment_from_folder(indir, outdir, folds=None, step_size=0.5, disable_mixed_precision=False):
+def segment_from_folder(indir, 
+                        outdir, 
+                        folds=None, 
+                        step_size=0.5, 
+                        disable_mixed_precision=False,
+                        num_threads_preprocessing=6,
+                        num_threads_nifti_save=2):
     """Segment mouse heart with nnUNet
 
     Args:
@@ -21,8 +27,8 @@ def segment_from_folder(indir, outdir, folds=None, step_size=0.5, disable_mixed_
     num_parts = 1
     save_npz = False
     lowres_segmentations = None
-    num_threads_preprocessing = 6
-    num_threads_nifti_save = 2
+    num_threads_preprocessing = num_threads_preprocessing
+    num_threads_nifti_save = num_threads_nifti_save
     disable_tta = True
     step_size = step_size
     overwrite_existing = False

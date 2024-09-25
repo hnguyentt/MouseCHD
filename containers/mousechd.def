@@ -1,0 +1,22 @@
+Bootstrap: docker
+From: docker.io/continuumio/miniconda3
+
+%post
+    conda install python=3.9
+    pip install "tensorflow[and-cuda]==2.14.0" 
+    pip install numpy==1.26.4
+    pip install mousechd
+
+    # clean
+    
+    conda clean -a
+    apt-get autoremove
+    apt-get clean
+    pip cache purge
+
+%environment
+    PATH=/opt/conda/bin:$PATH
+    export PATH
+
+%runscript
+    exec ${1+"$@"}

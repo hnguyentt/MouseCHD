@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import SimpleITK as sitk
 
+import tensorflow as tf
 from .datagens import MouseCHDEvalGen
 from .utils import calculate_metrics, eval_clf
 from ..datasets.utils import resample3d, norm_min_max

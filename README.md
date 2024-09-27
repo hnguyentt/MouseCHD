@@ -14,11 +14,27 @@ There are three ways that you can run the package:
 * Install the package: `pip install mousechd`
 
 ### Docker
+* Pull the docker image: `sudo docker pull hoanguyen93/mousechd`
+* Test if docker image pulled successfully: `sudo docker run mousechd mousechd -h`
+Expected output:
+```
+usage: mousechd [-h] [-version] {postprocess_nnUNet,prepare_nnUNet_data,preprocess,segment,resample,split_data,viz3d_views,viz3d_stages,viz_stacks,viz_eda,viz3d_seg,create_label_df,test_clf,train_clf,explain,viz_grad} ...
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -version              show program's version number and exit
+
+Choose a command:
+  {postprocess_nnUNet,prepare_nnUNet_data,preprocess,segment,resample,split_data,viz3d_views,viz3d_stages,viz_stacks,viz_eda,viz3d_seg,create_label_df,test_clf,train_clf,explain,viz_grad}
+```
+
+To assure that you can run the docker with GPUs if available, see the instruction here: https://github.com/hnguyentt/MouseCHD/tree/master/containers#docker
 
 ### Apptainer
 In case you run the package on HPC on which you don't have superuser permission, you can use Apptainer instead of docker.
-```bash
 
+```bash
+wget https://zenodo.org/records/13850904/files/mousechd.sif
 ```
   
 ## How to use
@@ -38,8 +54,11 @@ It is recommended that your data are structured in the following way:
 ```
 
 In case you use container, append these prefixes to the following commands:
-* Docker:
+* Docker: `sudo docker run --gpus all -v /path/on/host:/path/in/container mousechd`
+  * `--gpus all`: container can see and use all gpus available on host
+  * `-v /path/on/host:/path/in/container`: mount host data to container. For example, I mount my home folder to container home folder: `-v /home/hnguyent:/homme/hnguyent`
 * Apptainer: `apptainer exec --nv <path/to/mousechd.sif>`
+  * `--nv`: container can see and use available gpus.
 
 ### (1) Preprocessing
 

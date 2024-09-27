@@ -16,7 +16,10 @@ There are three ways that you can run the package:
 ### Docker
 * Pull the docker image: `sudo docker pull hoanguyen93/mousechd`
 * Test if docker image pulled successfully: `sudo docker run mousechd mousechd -h`
-Expected output:
+
+<details>
+<summary>Expected output:</summary>
+
 ```
 usage: mousechd [-h] [-version] {postprocess_nnUNet,prepare_nnUNet_data,preprocess,segment,resample,split_data,viz3d_views,viz3d_stages,viz_stacks,viz_eda,viz3d_seg,create_label_df,test_clf,train_clf,explain,viz_grad} ...
 
@@ -28,14 +31,44 @@ Choose a command:
   {postprocess_nnUNet,prepare_nnUNet_data,preprocess,segment,resample,split_data,viz3d_views,viz3d_stages,viz_stacks,viz_eda,viz3d_seg,create_label_df,test_clf,train_clf,explain,viz_grad}
 ```
 
+</details>
+
 To assure that you can run the docker with GPUs if available, see the instruction here: https://github.com/hnguyentt/MouseCHD/tree/master/containers#docker
 
 ### Apptainer
 In case you run the package on HPC on which you don't have superuser permission, you can use Apptainer instead of docker.
 
+* Download container to your computer or HPC:
 ```bash
 wget https://zenodo.org/records/13850904/files/mousechd.sif
 ```
+* Download models in advance (only on HPC), copy and paste in command line on HPC:
+```
+ver=13785314
+mkdir -p ~/.MouseCHD/Classifier/"$ver" && cd ~/.MouseCHD/Classifier/"$ver"
+wget https://zenodo.org/records/"$ver"/files/Classifier.zip
+unzip Classifier.zip && rm Classifier.zip
+mkdir -p ~/.MouseCHD/HeartSeg/"$ver" && cd ~/.MouseCHD/HearSeg/"$ver"
+wget https://zenodo.org/records/"$ver"/files/HeartSeg.zip
+unzip HeartSeg.zip && rm HeartSeg.zip && cd ~
+```
+* Test if container run correctly: `apptainer exec --nv <path/to/mousechd.sif> mousechd -h`
+
+<details>
+<summary>Expected output:</summary>
+
+```
+usage: mousechd [-h] [-version] {postprocess_nnUNet,prepare_nnUNet_data,preprocess,segment,resample,split_data,viz3d_views,viz3d_stages,viz_stacks,viz_eda,viz3d_seg,create_label_df,test_clf,train_clf,explain,viz_grad} ...
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -version              show program's version number and exit
+
+Choose a command:
+  {postprocess_nnUNet,prepare_nnUNet_data,preprocess,segment,resample,split_data,viz3d_views,viz3d_stages,viz_stacks,viz_eda,viz3d_seg,create_label_df,test_clf,train_clf,explain,viz_grad}
+```
+
+</details>
   
 ## How to use
 

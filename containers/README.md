@@ -22,6 +22,6 @@ $ sudo systemctl restart docker
 sudo apptainer build mousechd.sif mousechd.def
 ```
 
-1. Run mousechd
+2. Interact with mousechd
 
-Append the prefix: `apptainer exec --nv mousechd.sif `
+Append the prefix: `apptainer shell --nv mousechd.sif `

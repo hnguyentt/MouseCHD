@@ -17,7 +17,8 @@ import pandas as pd
 import numpy as np
 
 CACHE_DIR = os.path.join(os.path.expanduser("~"), ".MouseCHD")
-os.makedirs(CACHE_DIR, exist_ok=True)
+if not os.path.isdir(CACHE_DIR):
+    os.makedirs(CACHE_DIR, exist_ok=True)
 HEARTSEG_ID = "13785314" # Zenodo version ID of mouse heart segmentation model
 CLF_ID = "13785314" # Zenodo version ID of CHD classification
 

@@ -62,7 +62,7 @@ mousechd preprocess \
   ```bash
   mousechd segment -indir "DATA/processed/images" -outdir "OUTPUTS/HeartSeg"
   ```
-
+If your computer crashes when running this, you can decrease the number of threads for preprocessing (`default: 6`)and saving NIFTI files
 ### (3) CHD detection
 ```bash
 mousechd test_clf \

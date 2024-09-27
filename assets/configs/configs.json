@@ -19,7 +19,7 @@
  "momentum": 0.9,
  "gamma": 2.0,
  "alpha": 0.25,
- "epochs": 1,
+ "epochs": 100,
  "loss_fn": "categorical_crossentropy",
  "patience": 10,
  "augment": "augment0",

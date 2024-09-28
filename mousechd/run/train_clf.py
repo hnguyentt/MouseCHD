@@ -13,7 +13,7 @@ from mousechd.classifier.utils import (MODEL_NAMES,
                                        CLF_DIR,
                                        find_best_ckpt,
                                        download_clf_models)
-from mousechd.utils.tools import CACHE_DIR, set_logger
+from mousechd.utils.tools import set_logger
 from mousechd.classifier.augments import AUGMENT_POLS
 
 
@@ -26,8 +26,7 @@ def add_args(parser):
     parser.add_argument("-testdir", type=str, help="test datadir", default=None)
     parser.add_argument("-test_bz", type=int, help="test batch size", default=16)
     parser.add_argument("-configs", type=str, help="path to configs file", default=None)
-    parser.add_argument("-log_dir", type=str, help="Logging directory for tensorboard",
-                        default=os.path.join(CACHE_DIR, "LOGS", "Classifier"))
+    parser.add_argument("-log_dir", type=str, help="Logging directory for tensorboard", default=None)
     parser.add_argument("-evaluate", help="evaluate: best, none, all", type=str,
                         choices=["best", "none", "all"], default="none")
     parser.add_argument("-logfile", type=str, help="path to logfile", default=None)
@@ -79,13 +78,17 @@ def main(args):
     # TRain  
     strat_time = time.time()
     logging.info("="*15 + "//" + "="*15)
-    logging.info("TRAIN") 
+    logging.info("TRAIN")
+    if args.log_dir is None:
+        log_dir = os.path.join(save_dir, "LOGS")
+    else:
+        log_dir = args.log_dir 
     model = train_clf(save_dir=save_dir,
                       exp=args.exp,
                       data_dir=args.data_dir,
                       label_dir=args.label_dir, 
                       configs=configs,
-                      log_dir=args.log_dir)
+                      log_dir=log_dir)
     end_time = time.time()
     logging.info("Training time (hours): {}".format((end_time - strat_time) / 3600))
     

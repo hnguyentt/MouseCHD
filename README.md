@@ -184,7 +184,7 @@ mousechd explain \
 ## Analysis
 A detailed analysis can be found in the folder [analysis](./analysis/).
 
-For some visualization, [Napari](https://napari.org/stable/) is required. To install: `pip install "napari[all]`.
+For some visualization, [Napari](https://napari.org/stable/) is required. To install: `pip install "napari[all]"`.
 
 
 ## Acknowledgements

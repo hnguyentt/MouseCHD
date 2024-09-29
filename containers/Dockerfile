@@ -2,12 +2,15 @@ FROM quay.io/condaforge/miniforge3
 
 WORKDIR /opt
 
+COPY .MouseCHD /root/.MouseCHD
+
 RUN git clone https://github.com/hnguyentt/MouseCHD && \
     cd MouseCHD && \
     conda install python=3.9 && \
     conda install pytorch torchvision pytorch-cuda=11.8 cudatoolkit=11.8 -c pytorch -c nvidia -c conda-forge && \
     pip install --no-cache-dir "tensorflow[and-cuda]==2.14.0" && \
     pip install --no-cache-dir . && \
+    pip install --no-cache-dir "napari[all]" && \
     cd .. && \
     rm -rf MouseCHD && \
     conda clean -a -y && \

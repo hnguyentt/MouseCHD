@@ -33,7 +33,7 @@ Choose a command:
 
 </details>
 
-To assure that you can run the docker with GPUs if available, see the instruction here: https://github.com/hnguyentt/MouseCHD/tree/master/containers#docker
+To assure that you can run the docker with GPUs if available, see [Running docker with GPU](https://github.com/hnguyentt/MouseCHD/tree/master/containers#running-docker-with-gpu) section.
 
 ### Apptainer
 In case you run the package on HPC on which you don't have superuser permission, you can use Apptainer instead of docker.
@@ -42,7 +42,7 @@ In case you run the package on HPC on which you don't have superuser permission,
 ```bash
 wget https://zenodo.org/records/13855119/files/mousechd.sif
 ```
-* On HPC, the internet connection may not be not available on running node, you should download models in advance. See the downloading instruction [here](https://github.com/hnguyentt/MouseCHD/tree/master/containers#apptainer)
+* On HPC, the internet connection may not be not available on running node, you should download models in advance. See the downloading instruction [Downloading models in advance on HPC](https://github.com/hnguyentt/MouseCHD/tree/master/containers#downloading-models-in-advance-on-hpc)
 * Test if container run correctly: `apptainer exec --nv <path/to/mousechd.sif> mousechd -h`
 
 <details>
@@ -77,12 +77,7 @@ It is recommended that your data are structured in the following way:
             ......
 ```
 
-In case you use container, append these prefixes to the following commands:
-* Docker: `sudo docker run --gpus all -v /path/on/host:/path/in/container mousechd`
-  * `--gpus all`: container can see and use all gpus available on host
-  * `-v /path/on/host:/path/in/container`: mount host data to container. For example, I mount my home folder to container home folder: `-v /home/hnguyent:/homme/hnguyent`
-* Apptainer: `apptainer exec --nv <path/to/mousechd.sif>`
-  * `--nv`: container can see and use available gpus.
+In case you use container, see [Running `mousechd` with docker](https://github.com/hnguyentt/MouseCHD/tree/master/containers#running-mousechd-with-docker) and [Running `mousechd` with Apptainer](https://github.com/hnguyentt/MouseCHD/tree/master/containers#running-mousechd-with-apptainer) for more details.
 
 ### (1) Preprocessing
 
@@ -105,7 +100,8 @@ mousechd preprocess \
   ```bash
   mousechd segment -indir "DATA/processed/images" -outdir "OUTPUTS/HeartSeg"
   ```
-If your computer crashes when running this, you can decrease the number of threads for preprocessing (`default: 6`)and saving NIFTI files
+If your computer crashes when running this, you can decrease the number of threads for preprocessing (`-num_threads_preprocessing`, default: 6) and saving NIFTI files (`-num_thread_nifti_save`, default: 2)
+
 ### (3) CHD detection
 ```bash
 mousechd test_clf \

@@ -38,7 +38,7 @@ mkdir -p ~/.MouseCHD/Classifier/"$ver" && cd ~/.MouseCHD/Classifier/"$ver" && wg
 mkdir -p ~/.MouseCHD/HeartSeg/"$ver" && cd ~/.MouseCHD/HeartSeg/"$ver" && wget https://zenodo.org/records/"$ver"/files/HeartSeg.zip && unzip HeartSeg.zip && rm HeartSeg.zip && cd ~
 ```
 
-### Run `mousechd` with Apptainer
+### Running `mousechd` with Apptainer
 * Download Apptainer: `wget https://zenodo.org/records/13855119/files/mousechd.sif`
 * Download model in advance (only on HPC) like the [instruction above]().
 * Append this prefix before every command in the [How to use](https://github.com/hnguyentt/MouseCHD?tab=readme-ov-file#how-to-use): `apptainer exec [-B /path/to/directory/on/host] --nv <path/to/mousechd.sif>`:

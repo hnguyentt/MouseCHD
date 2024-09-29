@@ -40,18 +40,9 @@ In case you run the package on HPC on which you don't have superuser permission,
 
 * Download container to your computer or HPC:
 ```bash
-wget https://zenodo.org/records/13850904/files/mousechd.sif
+wget https://zenodo.org/records/13855119/files/mousechd.sif
 ```
-* Download models in advance (only on HPC), copy and paste in command line on HPC:
-```
-ver=13785314
-mkdir -p ~/.MouseCHD/Classifier/"$ver" && cd ~/.MouseCHD/Classifier/"$ver"
-wget https://zenodo.org/records/"$ver"/files/Classifier.zip
-unzip Classifier.zip && rm Classifier.zip
-mkdir -p ~/.MouseCHD/HeartSeg/"$ver" && cd ~/.MouseCHD/HearSeg/"$ver"
-wget https://zenodo.org/records/"$ver"/files/HeartSeg.zip
-unzip HeartSeg.zip && rm HeartSeg.zip && cd ~
-```
+* On HPC, the internet connection may not be not available on running node, you should download models in advance. See the downloading instruction [here](https://github.com/hnguyentt/MouseCHD/tree/master/containers#apptainer)
 * Test if container run correctly: `apptainer exec --nv <path/to/mousechd.sif> mousechd -h`
 
 <details>

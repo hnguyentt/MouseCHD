@@ -61,3 +61,9 @@ This folder contain plotting code for Figures in the paper. Some scripts require
 
 ### Supplementary Figure 5
 * See [scripts/08_explain.sh](../scripts/08_explain.sh)
+
+## Revision
+Improve plots from the feedback of reviewers.
+See [04.revision.ipynb](./04.revision.ipynb) for more details:
+
+* Improve the readability of Venn diagrams

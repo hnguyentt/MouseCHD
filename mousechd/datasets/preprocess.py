@@ -195,6 +195,7 @@ class Preprocess(object):
                     mask = mirror(img=img, seg=mask_arr)
                     processed_mask = anyview2LPS(mask)
                     processed_mask = make_isotropic(processed_mask)
+                    processed_mask[processed_mask != 0] = 1
                     sitk.WriteImage(processed_mask, 
                                     os.path.join(self.outdir, 
                                                  "heart-masks", 
@@ -232,6 +233,7 @@ class Preprocess(object):
                 mask = mirror(img=img, seg=mask_arr)
                 processed_mask = anyview2LPS(mask)
                 processed_mask = make_isotropic(processed_mask)
+                processed_mask[processed_mask != 0] = 1
                 sitk.WriteImage(processed_mask, 
                                 os.path.join(self.outdir, "heart-masks", "{}.nii.gz".format(x)))
                 df.loc[x, "heartmask"] = True

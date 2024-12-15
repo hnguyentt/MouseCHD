@@ -26,5 +26,3 @@ srun -J "Amaia" --pty --gres=gpu:1 -c 4 mousechd explain \
     -exp_dir "$WORKDIR/OUTPUTS/Classifier/retrain" \
     -imdir "$WORKDIR/DATA/CTs/resampled/Amaia/images" \
     -outdir "$WORKDIR/OUTPUTS/GradCAMs/Amaia"
-
-

@@ -18,3 +18,4 @@ scripts/.*
 build/
 dist/
 mousechd.egg-info/
+configs/

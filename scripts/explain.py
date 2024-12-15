@@ -1,4 +1,5 @@
 import os
+import argparse
 import re
 import glob
 import numpy as np
@@ -8,15 +9,14 @@ import SimpleITK as sitk
 import logging 
 
 
-def add_args(parser):
-    parser.add_argument("-exp_dir", type=str, help="experiment directory")
-    parser.add_argument("-imdir", type=str, help="image directory")
-    parser.add_argument("-maskdir", type=str, help="mask directory", default=None)
-    parser.add_argument("-layer_name", type=str, help="layer name to generate GradCAM", default=None)
-    parser.add_argument("-outdir", type=str, help="output directory", default=None)
-    parser.add_argument("-ckpt", type=str, help="checkpoint to restore", default="best_model.hdf5")
-    parser.add_argument("-label_path", type=str, help="path to label", default=None)
-    
+parser = argparse.ArgumentParser()
+parser.add_argument("-exp_dir", type=str, help="experiment directory")
+parser.add_argument("-imdir", type=str, help="image directory")
+parser.add_argument("-maskdir", type=str, help="mask directory", default=None)
+parser.add_argument("-layer_name", type=str, help="layer name to generate GradCAM", default=None)
+parser.add_argument("-outdir", type=str, help="output directory", default=None)
+parser.add_argument("-ckpt", type=str, help="checkpoint to restore", default="best_model.hdf5")
+parser.add_argument("-label_path", type=str, help="path to label", default=None)
 
 def main(args):
     import tensorflow as tf
@@ -134,3 +134,16 @@ def main(args):
         tifffile.imwrite(os.path.join(savedir, f"parallel_coronal_{class_idx}.tif"), coronal_parallel)
         sagittal_parallel = generate_parellel(ori_im, colored_overlay, view="sagittal")
         tifffile.imwrite(os.path.join(savedir, f"parallel_sagittal_{class_idx}.tif"), sagittal_parallel)
+        
+args = parser.parse_args()
+main(args)
+
+""" 
+# Save GradCAM for both classes
+WORKDIR="$HOME/DATA/INCEPTION_2020-CHD/Mice"
+F="F1"
+singularity exec --nv mousechd.sif python /master/home/hnguyent/DATA/INCEPTION_2020-CHD/Mice/projects/MouseCHD/scripts/explain.py \
+    -exp_dir "$WORKDIR/OUTPUTS/Classifier/$F" \
+    -imdir "$WORKDIR/DATA/CTs/resampled/Imagine/images" \
+    -outdir "$WORKDIR/OUTPUTS/GradCAMs1/Imagine"
+"""

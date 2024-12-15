@@ -1,6 +1,12 @@
 # Analysis
-
 This folder contain plotting code for Figures in the paper. Some scripts require Napari to run: `pip install "napari[all]"`.
+
+You can also run these notebooks with:
+* Apptainer: `apptainer exec --nv mousechd.sif jupyter-notebook` (using `-B` to mount data if necessary)
+* Docker: 
+  * `sudo docker run --gpus all -v <path/on/host>:</path/on/image> -it -p 8888:8888 hoanguyen93/mousechd`
+  * Inside the container: `jupyter notebook --ip 0.0.0.0 --port 8888 --no-browser --allow-root`
+
 
 ## Main figures
 ### Figure 1

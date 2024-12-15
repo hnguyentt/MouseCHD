@@ -36,6 +36,7 @@ def set_logger(log_path):
     Args:
         log_path: (string) where to log
     """
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
     logging.basicConfig(
     handlers=[logging.FileHandler(log_path),
               logging.StreamHandler()],

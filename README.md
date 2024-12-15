@@ -40,7 +40,7 @@ In case you run the package on HPC on which you don't have superuser permission,
 
 * Download container to your computer or HPC:
 ```bash
-wget https://zenodo.org/records/13855119/files/mousechd.sif
+wget https://zenodo.org/records/13928753/files/mousechd.sif
 ```
 * On HPC, the internet connection may not be not available on running node, you should download models in advance. See the downloading instruction [Downloading models in advance on HPC](https://github.com/hnguyentt/MouseCHD/tree/master/containers#downloading-models-in-advance-on-hpc)
 * Test if container run correctly: `apptainer exec --nv <path/to/mousechd.sif> mousechd -h`

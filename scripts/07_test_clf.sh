@@ -34,7 +34,7 @@ srun -J "Amaia" --pty --gres=gpu:1 -c 4 mousechd test_clf \
 # followup
 F="F1"
 srun -J "$F"_followup --pty --gres=gpu:1 -c 4 mousechd test_clf \
-    -model_dir "$WORKDIR/OUTPUTS/Classifier1" \
+    -model_dir "$WORKDIR/OUTPUTS/Classifier" \
     -fold "$F" \
     -ckpt "all" \
     -imdir "$WORKDIR/DATA/CTs/resampled/followup/images" \

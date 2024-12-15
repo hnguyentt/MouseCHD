@@ -9,6 +9,124 @@ if (!dir.exists(outdir)) {
      dir.create(outdir, recursive = TRUE)
 }
 
+##############
+# UpSet plot #
+##############
+install.packages("ComplexUpset")
+
+library(ggplot2)
+library(ComplexUpset)
+
+# Initial cohort
+df <- read.csv(file.path(DATADIR, "METADATA/UpSet_initial_cohort.csv"))
+
+svg(filename = file.path(outdir, "upset_initial.svg"))
+upset(
+    df,
+    c("Apex.malposition", "Atrial.situs.defects", "Malposition.of.the.great.arteries", "Septal.defects", "Ventricle.malposition"),
+    name="combinations",
+    width_ratio=0.2,
+    group_by='degree',
+    matrix=(
+     intersection_matrix(geom=geom_point(shape="circle filled", size=3))
+     + scale_color_manual(
+          values=c("Apex.malposition"="#e6194bff", "Atrial.situs.defects"="#3cb44bff", "Malposition.of.the.great.arteries"="#ffe119ff", "Septal.defects"="#0082c8ff", "Ventricle.malposition"="#f58231ff"),
+          guide=guide_legend(override.aes=list(shape="circle"))
+     )
+    ),
+    queries=list(
+     upset_query(set="Apex.malposition", fill="#e6194bff"),
+     upset_query(set="Atrial.situs.defects", fill="#3cb44bff"),
+     upset_query(set="Malposition.of.the.great.arteries", fill="#ffe119ff"),
+     upset_query(set="Septal.defects", fill="#0082c8ff"),
+     upset_query(set="Ventricle.malposition", fill="#f58231ff")
+    ),
+    labeller=ggplot2::as_labeller(c(
+        'Apex.malposition'='AM',
+        'Atrial.situs.defects'='ASD',
+        'Malposition.of.the.great.arteries'='MGA',
+        'Septal.defects'='SD',
+        'Ventricle.malposition'='VM'
+    ))
+)
+dev.off()
+
+# Prospective cohort
+df <- read.csv(file.path(DATADIR, "METADATA/UpSet_prospective_cohort.csv"))
+
+svg(filename = file.path(outdir, "upset_prospective.svg"))
+upset(
+    df,
+    c("Apex.malposition", "Atrial.situs.defects", "Malposition.of.the.great.arteries", "Septal.defects", "Ventricle.malposition"),
+    name="combinations",
+    width_ratio=0.2,
+    group_by='degree',
+    matrix=(
+     intersection_matrix(geom=geom_point(shape="circle filled", size=3))
+     + scale_color_manual(
+          values=c("Apex.malposition"="#e6194bff", "Atrial.situs.defects"="#3cb44bff", "Malposition.of.the.great.arteries"="#ffe119ff", "Septal.defects"="#0082c8ff", "Ventricle.malposition"="#f58231ff"),
+          guide=guide_legend(override.aes=list(shape="circle"))
+     )
+    ),
+    queries=list(
+     upset_query(set="Apex.malposition", fill="#e6194bff"),
+     upset_query(set="Atrial.situs.defects", fill="#3cb44bff"),
+     upset_query(set="Malposition.of.the.great.arteries", fill="#ffe119ff"),
+     upset_query(set="Septal.defects", fill="#0082c8ff"),
+     upset_query(set="Ventricle.malposition", fill="#f58231ff")
+    ),
+    labeller=ggplot2::as_labeller(c(
+        'Apex.malposition'='AM',
+        'Atrial.situs.defects'='ASD',
+        'Malposition.of.the.great.arteries'='MGA',
+        'Septal.defects'='SD',
+        'Ventricle.malposition'='VM'
+    ))
+)
+dev.off()
+
+# divergent cohort
+df <- read.csv(file.path(DATADIR, "METADATA/UpSet_divergent_cohort.csv"))
+
+svg(filename = file.path(outdir, "upset_divergent.svg"))
+upset(
+    df,
+    c("Apex.malposition", "Atrial.situs.defects", "Malposition.of.the.great.arteries", "Septal.defects", "Ventricle.malposition", "Situs.inversus.totalis"),
+    name="combinations",
+    width_ratio=0.2,
+    group_by='degree',
+    matrix=(
+     intersection_matrix(geom=geom_point(shape="circle filled", size=3))
+     + scale_color_manual(
+          values=c(
+               "Apex.malposition"="#e6194bff", 
+               "Atrial.situs.defects"="#3cb44bff", 
+               "Malposition.of.the.great.arteries"="#ffe119ff", 
+               "Septal.defects"="#0082c8ff", 
+               "Ventricle.malposition"="#f58231ff", 
+               "Situs.inversus.totalis"="#911eb4ff"),
+          guide=guide_legend(override.aes=list(shape="circle"))
+     )
+    ),
+    queries=list(
+     upset_query(set="Apex.malposition", fill="#e6194bff"),
+     upset_query(set="Atrial.situs.defects", fill="#3cb44bff"),
+     upset_query(set="Malposition.of.the.great.arteries", fill="#ffe119ff"),
+     upset_query(set="Septal.defects", fill="#0082c8ff"),
+     upset_query(set="Ventricle.malposition", fill="#f58231ff"),
+     upset_query(set="Situs.inversus.totalis", fill="#911eb4ff")
+    ),
+    labeller=ggplot2::as_labeller(c(
+        'Apex.malposition'='AM',
+        'Atrial.situs.defects'='ASD',
+        'Malposition.of.the.great.arteries'='MGA',
+        'Septal.defects'='SD',
+        'Ventricle.malposition'='VM',
+        'Situs.inversus.totalis'='SIT'
+    ))
+)
+dev.off()
+
 ################
 # Venn Diagram #
 ################
@@ -20,7 +138,7 @@ library(nVennR)
 # Initial cohort
 kingdom <- fromJSON(paste(readLines(file.path(DATADIR, "METADATA/VennData_initial_cohort.json"), warn = FALSE), collapse = ""))
 
-plotVenn(kingdom,
+venn <- plotVenn(kingdom,
      borderWidth = 2, fontScale = 2,
      outFile = file.path(outdir, "Venn_initial.svg")
 )
@@ -121,14 +239,14 @@ dev.off()
 # Divergent cohort
 df <- read.csv(file.path(DATADIR, "METADATA/circos_divergent_cohort.csv"))
 
-svg(filename = file.path(outdir, "circos_prospective.svg"))
+svg(filename = file.path(outdir, "circos_divergent.svg"))
 diseases_order <- c(
      "Apex malposition",
      "Atrial situs defects",
      "Malposition of the great arteries",
      "Septal defects",
-     "Ventricle malposition",
-     "Situs inversus totalis"
+     "Situs inversus totalis",
+     "Ventricle malposition"
 )
 
 grid.col = disease_order <- c(

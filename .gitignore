@@ -12,6 +12,7 @@ test
 **/*.pdf
 **/*.synctex.gz
 **/*.fls
+**/.*
 
 scripts/.*
 

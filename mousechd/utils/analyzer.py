@@ -613,8 +613,8 @@ def plot_gallery(ims, masks=None, ncols=4, **kwargs):
     else:
         vmins = np.array([x.min() for x in masks if x is not None])
         vmaxs = np.array([x.max() for x in masks if x is not None])
-        vmin = np.min(vmins)
-        vmax = np.max(vmaxs)
+        vmin = kwargs.get("vmin", np.min(vmins))
+        vmax = kwargs.get("vmax", np.max(vmaxs))
         
     nrows = int(np.ceil(len(ims)/ncols))
     fig = plt.figure(figsize=kwargs.get('figsize', (ncols*3, nrows*3)))

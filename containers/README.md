@@ -39,8 +39,8 @@ mkdir -p ~/.MouseCHD/HeartSeg/"$ver" && cd ~/.MouseCHD/HeartSeg/"$ver" && wget h
 ```
 
 ### Running `mousechd` with Apptainer
-* Download Apptainer: `wget https://zenodo.org/records/13855119/files/mousechd.sif`
-* Download model in advance (only on HPC) like the [instruction above]().
+* Download Apptainer: `wget https://zenodo.org/records/13928753/files/mousechd.sif`
+* Download model in advance (only on HPC) like the [instruction above](https://github.com/hnguyentt/MouseCHD/tree/master/containers#downloading-models-in-advance-on-hpc).
 * Append this prefix before every command in the [How to use](https://github.com/hnguyentt/MouseCHD?tab=readme-ov-file#how-to-use): `apptainer exec [-B /path/to/directory/on/host] --nv <path/to/mousechd.sif>`:
   * `--nv`: container can see and use available gpus.
   * `-B /path/to/directory/on/host`: `B` flag is for binding directories from the host into the container. If your data is not visible by container, especially on HPC, you could use this flag to mount your data to container.
